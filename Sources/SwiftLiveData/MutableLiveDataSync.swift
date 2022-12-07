@@ -10,24 +10,24 @@ import Combine
 
 
 @propertyWrapper
-class MutableLiveDataSync<Value> {
+public class MutableLiveDataSync<Value> {
     
     private let defaultValue: Value
     private var change: ObservableObjectPublisher?
     private var dataSource: AnyMutableLiveData<Value>?
     private var cancellable: AnyCancellable?
 
-    init<D: MutableLiveData>(wrappedValue: Value, dataSource: D) where D.Value == Value {
+    public init<D: MutableLiveData>(wrappedValue: Value, dataSource: D) where D.Value == Value {
         self.defaultValue = wrappedValue
         self.dataSource = dataSource.eraseToAnyMutableLiveData()
         self.monitor()
     }
     
-    init(wrappedValue: Value) {
+    public init(wrappedValue: Value) {
         self.defaultValue = wrappedValue
     }
 
-    var wrappedValue: Value {
+    public var wrappedValue: Value {
         get {
             return self.dataSource?.get() ?? defaultValue
         }
@@ -36,24 +36,24 @@ class MutableLiveDataSync<Value> {
         }
     }
 
-    var projectedValue: AnyPublisher<Value,Never>? {
+    public var projectedValue: AnyPublisher<Value,Never>? {
         return dataSource?.publisher()
     }
 
-    func monitor() {
+    private func monitor() {
         self.cancellable?.cancel()
         self.cancellable = self.dataSource?.publisher().receive(on: RunLoop.main).sink { _ in
             self.change?.send()
         }
     }
     
-    func set<D: MutableLiveData>(_ dataSource: D, change: ObservableObjectPublisher? = nil) where D.Value == Value {
+    public func set<D: MutableLiveData>(_ dataSource: D, change: ObservableObjectPublisher? = nil) where D.Value == Value {
         self.dataSource = dataSource.eraseToAnyMutableLiveData()
         self.change = change
         self.monitor()
     }
 
-    func set(_ change: ObservableObjectPublisher) {
+    public func set(_ change: ObservableObjectPublisher) {
         self.change = change
     }
 

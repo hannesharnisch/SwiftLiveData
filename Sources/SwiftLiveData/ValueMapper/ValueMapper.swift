@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol ValueMapper {
+public protocol ValueMapper {
     associatedtype X
     associatedtype Y
     

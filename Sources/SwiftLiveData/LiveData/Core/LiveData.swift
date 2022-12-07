@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-protocol LiveData {
+public protocol LiveData {
     associatedtype Value
     
     func get() -> Value
