@@ -8,10 +8,10 @@
 import Foundation
 import Combine
 
-class LiveDataUtils {
+public class LiveDataUtils {
     
 }
-extension LiveDataUtils {
+public extension LiveDataUtils {
     class LiveDataWrapper<M: MutableLiveData>: LiveData {
         private let mutable: M
         
@@ -19,11 +19,11 @@ extension LiveDataUtils {
             self.mutable = mutable
         }
         
-        func get() -> M.Value {
+        public func get() -> M.Value {
             return mutable.get()
         }
         
-        func publisher() -> AnyPublisher<M.Value, Never> {
+        public func publisher() -> AnyPublisher<M.Value, Never> {
             return mutable.publisher()
         }
     }

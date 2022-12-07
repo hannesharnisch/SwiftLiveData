@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-class MappedLiveData<X,Y>: LiveData {
+public class MappedLiveData<X,Y>: LiveData {
     
     private let source: AnyLiveData<X>
     private let map: (X) -> (Y)
@@ -18,18 +18,18 @@ class MappedLiveData<X,Y>: LiveData {
         self.map = mapper
     }
 
-    func get() -> Y {
+    public func get() -> Y {
         map(self.source.get())
     }
 
-    func publisher() -> AnyPublisher<Y, Never> {
+    public func publisher() -> AnyPublisher<Y, Never> {
         self.source.publisher()
             .map(map)
             .eraseToAnyPublisher()
     }
 }
 
-extension LiveData {
+public extension LiveData {
     func map<T>(_ mapper: @escaping (Value) -> T) -> MappedLiveData<Value,T> {
         MappedLiveData(self,mapper: mapper)
     }

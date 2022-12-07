@@ -15,7 +15,7 @@ public protocol LiveData {
     func publisher() -> AnyPublisher<Value, Never>
 }
 
-extension LiveData {
+public extension LiveData {
     func eraseToAnyLiveData() -> AnyLiveData<Value> {
         return AnyLiveData(self)
     }

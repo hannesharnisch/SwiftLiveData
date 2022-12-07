@@ -16,7 +16,7 @@ public protocol MutableLiveData {
     func publisher() -> AnyPublisher<Value, Never>
 }
 
-extension MutableLiveData {
+public extension MutableLiveData {
     func eraseToAnyMutableLiveData() -> AnyMutableLiveData<Value> {
         AnyMutableLiveData(self)
     }

@@ -56,14 +56,11 @@ public class LiveDataSync<Value> {
 
     public static subscript<EnclosingSelf: ObservableObject>(
       _enclosingInstance object: EnclosingSelf,
-      wrapped wrappedKeyPath: ReferenceWritableKeyPath<EnclosingSelf, Value>,
-      storage storageKeyPath: ReferenceWritableKeyPath<EnclosingSelf, LiveDataSync<Value>>
+      wrapped wrappedKeyPath: KeyPath<EnclosingSelf, Value>,
+      storage storageKeyPath: KeyPath<EnclosingSelf, LiveDataSync<Value>>
     ) -> Value {
       get {
         return object[keyPath: storageKeyPath].wrappedValue
-      }
-      set {
-          object[keyPath: storageKeyPath].change = object.objectWillChange as? ObservableObjectPublisher
       }
     }
 }

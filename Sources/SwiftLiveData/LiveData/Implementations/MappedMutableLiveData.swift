@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-class MappedMutableLiveData<Mapper: ValueMapper>: MutableLiveData {
+public class MappedMutableLiveData<Mapper: ValueMapper>: MutableLiveData {
     private let source: AnyMutableLiveData<Mapper.X>
     private let mapper: Mapper
 
@@ -17,15 +17,15 @@ class MappedMutableLiveData<Mapper: ValueMapper>: MutableLiveData {
         self.mapper = mapper
     }
 
-    func get() -> Mapper.Y {
+    public func get() -> Mapper.Y {
         mapper.map(self.source.get())
     }
 
-    func set(_ value: Mapper.Y) {
+    public func set(_ value: Mapper.Y) {
         self.source.set(mapper.map(value))
     }
 
-    func publisher() -> AnyPublisher<Mapper.Y, Never> {
+    public func publisher() -> AnyPublisher<Mapper.Y, Never> {
         self.source.publisher()
             .map(mapper.map)
             .eraseToAnyPublisher()
@@ -33,7 +33,7 @@ class MappedMutableLiveData<Mapper: ValueMapper>: MutableLiveData {
 }
 
 
-extension MutableLiveData {
+public extension MutableLiveData {
     func map<M: ValueMapper>(_ mapper: M) -> MappedMutableLiveData<M> where M.X == Self.Value{
         MappedMutableLiveData(self, mapper: mapper)
     }
